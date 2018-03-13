@@ -1,0 +1,8 @@
+.suo
+*.user
+*.pdb
+bin/
+obj/
+packages/
+.vs/
+.idea/
