@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4F4FAA54-032B-4139-9388-6627B163B875}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{675B86C6-CD20-46D9-B86F-0E8118859568}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Agency.BLL</RootNamespace>
-    <AssemblyName>Agency.BLL</AssemblyName>
+    <RootNamespace>Agency.ConsoleClient</RootNamespace>
+    <AssemblyName>Agency.ConsoleClient</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -35,6 +35,30 @@
     <Reference Include="AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005">
       <HintPath>..\packages\AutoMapper.6.2.2\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
+    <Reference Include="DotNetCraft.Common.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\DotNetCraft.Common.1.0.5\lib\net40\DotNetCraft.Common.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetCraft.Common.Core.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\DotNetCraft.Common.1.0.5\lib\net40\DotNetCraft.Common.Core.Domain.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetCraft.Common.Core.Utils, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\DotNetCraft.Common.1.0.5\lib\net40\DotNetCraft.Common.Core.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetCraft.Common.DataAccessLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\DotNetCraft.Common.1.0.5\lib\net40\DotNetCraft.Common.DataAccessLayer.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetCraft.Common.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\DotNetCraft.Common.1.0.5\lib\net40\DotNetCraft.Common.Domain.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetCraft.Common.Utils, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\DotNetCraft.Common.1.0.5\lib\net40\DotNetCraft.Common.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject, Version=4.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7">
       <HintPath>..\packages\Ninject.4.0.0-beta-0134\lib\net45\Ninject.dll</HintPath>
     </Reference>
@@ -44,21 +68,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTOs\ApartmentEditDto.cs" />
-    <Compile Include="Infrastructure\MapperExt.cs" />
-    <Compile Include="Infrastructure\MapperProvider.cs" />
-    <Compile Include="Infrastructure\ServiceModule.cs" />
+    <Compile Include="AgencyTerminal.cs" />
+    <Compile Include="OutputService.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ApartmentService.cs" />
-    <Compile Include="Services\IApartmentService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Agency.BLL\Agency.BLL.csproj">
+      <Project>{4F4FAA54-032B-4139-9388-6627B163B875}</Project>
+      <Name>Agency.BLL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Agency.DAL\Agency.DAL.csproj">
-      <Project>{C6AD5F60-A25B-4089-8FCE-9DE8687E1EAD}</Project>
+      <Project>{c6ad5f60-a25b-4089-8fce-9de8687e1ead}</Project>
       <Name>Agency.DAL</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
