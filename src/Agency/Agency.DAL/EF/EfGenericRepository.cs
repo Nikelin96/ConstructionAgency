@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Migrations;
     using System.Linq;
     using System.Linq.Expressions;
     using Agency.DAL.Interfaces;
@@ -26,7 +27,7 @@
 
             if (filter != null)
             {
-                resultSet = resultSet.Where(filter);
+                resultSet = resultSet.AsNoTracking().Where(filter);
             }
 
             return resultSet.ToList();
@@ -51,23 +52,15 @@
 
         public void Update(TEntity item)
         {
-//            DbEntityEntry<TEntity> entry = _context.Entry(item);
-//            if (entry.State == EntityState.Detached)
-//            {
-//                _dataSet.Attach(item);
-//            }
-//
-//            entry.State = EntityState.Modified;
 
-//            DbEntityEntry<TEntity> entry = _context.Entry(item);
+            DbEntityEntry<TEntity> entry = _context.Entry(item);
 
-            var entityToUpdate = _dataSet.Find(item);
-
-            if (entityToUpdate != null)
+            if (entry.State == EntityState.Detached)
             {
-                _context.Entry(entityToUpdate).State = EntityState.Modified;
-                entityToUpdate = item;
+                _dataSet.Attach(item);
             }
+
+            entry.State = EntityState.Modified;
         }
 
         public bool Delete(int id)

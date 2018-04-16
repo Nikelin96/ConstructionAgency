@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Management.Instrumentation;
     using Agency.BLL.DTOs;
     using Agency.BLL.Infrastructure;
     using Agency.DAL.Interfaces;
@@ -29,12 +30,18 @@
 
         public void Update(ApartmentEditDto dto)
         {
-            _unitOfWork.Apartments.Update(_mapper.Map<Apartment>(dto));
+            Apartment entity = _unitOfWork.Apartments.Get(dto.Id);
+            if (entity == null)
+            {
+                throw new InstanceNotFoundException($"Entity with id {dto.Id} was not found");
+            }
+
+            _unitOfWork.Apartments.Update(_mapper.Map(dto, entity));
             _unitOfWork.Commit();
         }
 
-//        public IEnumerable<ApartmentState> AllowedStates =>
-//            Enum.GetValues(typeof(ApartmentState)).OfType<ApartmentState>().Where(state => (int) state > (int) State);
+        //        public IEnumerable<ApartmentState> AllowedStates =>
+        //            Enum.GetValues(typeof(ApartmentState)).OfType<ApartmentState>().Where(state => (int) state > (int) State);
 
         public (bool isValid, string message) Validate(ApartmentEditDto apartmentDto, ApartmentState newState)
         {
@@ -49,7 +56,7 @@
                 Environment.NewLine +
                 string.Join(
                     Environment.NewLine,
-                    allowedStates.Select(state => $"{(int) state} {state:G}").ToArray()
+                    allowedStates.Select(state => $"{(int)state} {state:G}").ToArray()
                 );
 
             return (isValid: false, message: message);
@@ -58,7 +65,7 @@
         public IEnumerable<ApartmentState> GetAllowedApartmentStates(ApartmentState stateToVerify)
         {
             return Enum.GetValues(typeof(ApartmentState)).OfType<ApartmentState>()
-                .Where(state => (int) state > (int) stateToVerify);
+                .Where(state => (int)state > (int)stateToVerify);
         }
     }
 }

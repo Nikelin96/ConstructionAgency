@@ -18,6 +18,7 @@
 
         public bool IsFinished => State == ApartmentState.Done;
 
+
 //        public IEnumerable<ApartmentState> AllowedStates =>
 //            Enum.GetValues(typeof(ApartmentState)).OfType<ApartmentState>().Where(state => (int) state > (int) State);
     }
