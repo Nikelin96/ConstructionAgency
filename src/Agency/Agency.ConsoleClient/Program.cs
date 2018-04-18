@@ -24,7 +24,7 @@
             var serviceModule = new ServiceModule("name=DBConnection");
             var kernel = new StandardKernel(serviceModule);
 
-            var agencyTerminal = new AgencyTerminal(kernel.Get<IApartmentService>());
+            var agencyTerminal = new AgencyTerminal(kernel.Get<IApartmentService>(), kernel.Get<IApartmentStateService>());
 
             agencyTerminal.Start();
         }

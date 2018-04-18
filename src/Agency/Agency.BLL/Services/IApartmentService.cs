@@ -11,9 +11,5 @@
         IList<ApartmentEditDto> GetAll(Expression<Func<Apartment, bool>> filter = null);
 
         void Update(ApartmentEditDto dto);
-
-        (bool isValid, string message) Validate(ApartmentEditDto apartmentDto, ApartmentState newState);
-
-        IEnumerable<ApartmentState> GetAllowedApartmentStates(ApartmentState stateToVerify);
     }
 }

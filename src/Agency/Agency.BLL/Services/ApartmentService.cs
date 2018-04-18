@@ -2,9 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Data.Entity.Core;
     using System.Linq;
     using System.Linq.Expressions;
-    using System.Management.Instrumentation;
     using Agency.BLL.DTOs;
     using Agency.BLL.Infrastructure;
     using Agency.DAL.Interfaces;
@@ -33,39 +33,11 @@
             Apartment entity = _unitOfWork.Apartments.Get(dto.Id);
             if (entity == null)
             {
-                throw new InstanceNotFoundException($"Entity with id {dto.Id} was not found");
+                throw new ObjectNotFoundException($"Entity with id {dto.Id} was not found");
             }
 
             _unitOfWork.Apartments.Update(_mapper.Map(dto, entity));
             _unitOfWork.Commit();
-        }
-
-        //        public IEnumerable<ApartmentState> AllowedStates =>
-        //            Enum.GetValues(typeof(ApartmentState)).OfType<ApartmentState>().Where(state => (int) state > (int) State);
-
-        public (bool isValid, string message) Validate(ApartmentEditDto apartmentDto, ApartmentState newState)
-        {
-            IEnumerable<ApartmentState> allowedStates = GetAllowedApartmentStates(apartmentDto.State);
-            if (allowedStates.Contains(newState))
-            {
-                return (isValid: true, message: string.Empty);
-            }
-
-            string message =
-                "Allowed States are:" +
-                Environment.NewLine +
-                string.Join(
-                    Environment.NewLine,
-                    allowedStates.Select(state => $"{(int)state} {state:G}").ToArray()
-                );
-
-            return (isValid: false, message: message);
-        }
-
-        public IEnumerable<ApartmentState> GetAllowedApartmentStates(ApartmentState stateToVerify)
-        {
-            return Enum.GetValues(typeof(ApartmentState)).OfType<ApartmentState>()
-                .Where(state => (int)state > (int)stateToVerify);
         }
     }
 }

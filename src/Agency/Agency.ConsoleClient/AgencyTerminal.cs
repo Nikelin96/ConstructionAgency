@@ -16,11 +16,13 @@
     {
         private readonly IApartmentService _apartmentService;
 
+        private readonly IApartmentStateService _apartmentStateService;
 //        private readonly OutputService _outputService;
 
-        public AgencyTerminal(IApartmentService apartmentService)
+        public AgencyTerminal(IApartmentService apartmentService, IApartmentStateService apartmentStateService)
         {
             _apartmentService = apartmentService;
+            _apartmentStateService = apartmentStateService;
         }
 
         public void Start()
@@ -56,7 +58,7 @@
             Console.ReadKey();
             Console.WriteLine($"Set new Apartment Status:");
 
-            foreach (ApartmentState state in _apartmentService.GetAllowedApartmentStates(selectedApartment.State))
+            foreach (ApartmentState state in _apartmentStateService.GetAllowedApartmentStates(selectedApartment.State))
             {
                 Console.WriteLine($"{(int) state}: {state:G}");
             }
@@ -64,7 +66,7 @@
             var inputState = (ApartmentState) GetInputAsDigit();
 
             (bool isValid, string message)
-                validationResults = _apartmentService.Validate(selectedApartment, inputState);
+                validationResults = _apartmentStateService.Validate(selectedApartment, inputState);
 
             if (validationResults.isValid)
             {

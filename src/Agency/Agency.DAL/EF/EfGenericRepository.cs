@@ -23,11 +23,11 @@
 
         public IList<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null)
         {
-            IQueryable<TEntity> resultSet = _dataSet;
+            IQueryable<TEntity> resultSet = _dataSet.AsNoTracking();
 
             if (filter != null)
             {
-                resultSet = resultSet.AsNoTracking().Where(filter);
+                resultSet = resultSet.Where(filter);
             }
 
             return resultSet.ToList();
@@ -52,7 +52,6 @@
 
         public void Update(TEntity item)
         {
-
             DbEntityEntry<TEntity> entry = _context.Entry(item);
 
             if (entry.State == EntityState.Detached)

@@ -22,9 +22,13 @@
             Bind<IMapper>().ToProvider<MapperProvider>().InSingletonScope();
 
             Bind<IApartmentService>()
-                .To<ApartmentService>(); //.WithConstructorArgument(typeof(IUnitOfWork), typeof(IMapper));
+                .To<ApartmentService>();
 
-//            Bind<IApartmentService>().To<IApartmentService>();
+            Bind<IApartmentStateService>()
+                .To<ApartmentStateService>();
+            //.WithConstructorArgument(typeof(IUnitOfWork), typeof(IMapper));
+
+            //            Bind<IApartmentService>().To<IApartmentService>();
         }
     }
 }
