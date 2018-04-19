@@ -68,9 +68,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AgencyTerminal.cs" />
-    <Compile Include="OutputService.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Services\ApartmentControllerService.cs" />
+    <Compile Include="Services\ApartmentWorkflowService.cs" />
+    <Compile Include="Services\IApartmentControllerService.cs" />
+    <Compile Include="Services\AgencyWorkflowService.cs" />
+    <Compile Include="Infrastructure\ServiceModule.cs" />
+    <Compile Include="Services\ConsoleService.cs" />
+    <Compile Include="Services\IAgencyWorkflowService.cs" />
+    <Compile Include="Services\IApartmentWorkflowService.cs" />
+    <Compile Include="Services\IConsoleService.cs" />
+    <Compile Include="App_Start\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

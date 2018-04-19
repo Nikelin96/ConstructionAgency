@@ -8,7 +8,7 @@
     using System.Text;
     using System.Threading.Tasks;
 
-        public class ApartmentStateService: IApartmentStateService
+    public class ApartmentStateService : IApartmentStateService
     {
         public (bool isValid, string message) Validate(ApartmentEditDto apartmentDto, ApartmentState newState)
         {
@@ -29,10 +29,10 @@
             return (isValid: false, message: message);
         }
 
-        public IEnumerable<ApartmentState> GetAllowedApartmentStates(ApartmentState stateToVerify)
+        public IList<ApartmentState> GetAllowedApartmentStates(ApartmentState stateToVerify)
         {
             return Enum.GetValues(typeof(ApartmentState)).OfType<ApartmentState>()
-                .Where(state => (int)state > (int)stateToVerify);
+                .Where(state => (int)state > (int)stateToVerify).ToList();
         }
     }
 }

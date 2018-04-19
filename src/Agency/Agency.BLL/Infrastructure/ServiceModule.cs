@@ -1,34 +1,35 @@
-﻿namespace Agency.BLL.Infrastructure
-{
-    using Agency.BLL.Services;
-    using Agency.DAL.EF;
-    using Agency.DAL.Interfaces;
-    using AutoMapper;
-    using Ninject.Modules;
+﻿//namespace Agency.BLL.Infrastructure
+//{
+//    using Agency.BLL.Services;
+//    using Agency.DAL.EF;
+//    using Agency.DAL.Interfaces;
+//    using AutoMapper;
+//    using Ninject.Modules;
 
-    public class ServiceModule : NinjectModule
-    {
-        private string _connectionString;
+//    public class ServiceModule : NinjectModule
+//    {
+//        private string _connectionString;
 
-        public ServiceModule(string connection)
-        {
-            _connectionString = connection;
-        }
+//        public ServiceModule(string connection)
+//        {
+//            _connectionString = connection;
+//        }
 
-        public override void Load()
-        {
-            Bind<IUnitOfWork>().To<EfUnitOfWork>().WithConstructorArgument(_connectionString);
+//        public override void Load()
+//        {
+//            Bind<IUnitOfWork>().To<EfUnitOfWork>().WithConstructorArgument(_connectionString);
 
-            Bind<IMapper>().ToProvider<MapperProvider>().InSingletonScope();
+//            Bind<IMapper>().ToProvider<MapperProvider>().InSingletonScope();
 
-            Bind<IApartmentService>()
-                .To<ApartmentService>();
+//            Bind<IApartmentService>()
+//                .To<ApartmentService>();
 
-            Bind<IApartmentStateService>()
-                .To<ApartmentStateService>();
-            //.WithConstructorArgument(typeof(IUnitOfWork), typeof(IMapper));
+//            Bind<IApartmentStateService>()
+//                .To<ApartmentStateService>();
 
-            //            Bind<IApartmentService>().To<IApartmentService>();
-        }
-    }
-}
+//            //.WithConstructorArgument(typeof(IUnitOfWork), typeof(IMapper));
+
+//            //            Bind<IApartmentService>().To<IApartmentService>();
+//        }
+//    }
+//}

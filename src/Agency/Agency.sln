@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agency.ConsoleClient", "Age
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agency.BLL.Tests", "Agency.BLL.Tests\Agency.BLL.Tests.csproj", "{37CC5E4B-8072-4EC0-B9A7-1157234B166A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agency.ConsoleClient.Tests", "Agency.ConsoleClient.Tests\Agency.ConsoleClient.Tests.csproj", "{3AA43F56-43C5-49BA-B763-7BA2D7D96B71}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{37CC5E4B-8072-4EC0-B9A7-1157234B166A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37CC5E4B-8072-4EC0-B9A7-1157234B166A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37CC5E4B-8072-4EC0-B9A7-1157234B166A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AA43F56-43C5-49BA-B763-7BA2D7D96B71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AA43F56-43C5-49BA-B763-7BA2D7D96B71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AA43F56-43C5-49BA-B763-7BA2D7D96B71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AA43F56-43C5-49BA-B763-7BA2D7D96B71}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
