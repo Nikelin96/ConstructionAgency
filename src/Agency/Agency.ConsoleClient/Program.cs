@@ -1,18 +1,10 @@
 ﻿namespace Agency.ConsoleClient
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Agency.BLL.Infrastructure;
     using Agency.BLL.Services;
-    using Agency.DAL.EF;
-    using Agency.DAL.Interfaces;
-    using Agency.DAL.Model.Entities;
-    using AutoMapper;
-    using DotNetCraft.Common.DataAccessLayer.UnitOfWorks.SimpleUnitOfWorks;
+    using Infrastructure;
     using Ninject;
-    using Ninject.Activation;
-    using Ninject.Parameters;
+    using Services;
 
     internal class Program
     {
@@ -24,7 +16,7 @@
             var serviceModule = new ServiceModule("name=DBConnection");
             var kernel = new StandardKernel(serviceModule);
 
-            var agencyTerminal = new AgencyTerminal(kernel.Get<IApartmentService>(), kernel.Get<IApartmentStateService>());
+            var agencyTerminal = new AgencyTerminal(kernel.Get<IApartmentService>(), kernel.Get<IApartmentStateService>(), kernel.Get<IConsoleService>());
 
             agencyTerminal.Start();
         }

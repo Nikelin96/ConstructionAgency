@@ -69,7 +69,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AgencyTerminal.cs" />
-    <Compile Include="OutputService.cs" />
+    <Compile Include="Infrastructure\ServiceModule.cs" />
+    <Compile Include="Services\ConsoleService.cs" />
+    <Compile Include="Services\IConsoleService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

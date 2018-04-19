@@ -3,108 +3,158 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Runtime.CompilerServices;
+    using System.Threading;
     using Agency.BLL.DTOs;
     using Agency.BLL.Services;
-    using Agency.DAL.EF;
-    using Agency.DAL.Interfaces;
-    using Agency.DAL.Model.Entities;
-    using DotNetCraft.Common.DataAccessLayer.UnitOfWorks.SimpleUnitOfWorks;
-    using Ninject;
+    using Agency.ConsoleClient.Services;
+    using ApartmentState = DAL.Model.Entities.ApartmentState;
 
     public class AgencyTerminal
     {
         private readonly IApartmentService _apartmentService;
 
         private readonly IApartmentStateService _apartmentStateService;
-//        private readonly OutputService _outputService;
 
-        public AgencyTerminal(IApartmentService apartmentService, IApartmentStateService apartmentStateService)
+        private readonly IConsoleService _consoleService;
+
+        public AgencyTerminal(IApartmentService apartmentService, IApartmentStateService apartmentStateService, IConsoleService consoleService)
         {
             _apartmentService = apartmentService;
             _apartmentStateService = apartmentStateService;
+            _consoleService = consoleService;
         }
 
         public void Start()
         {
-            Console.WriteLine("List of appartments:");
-
-            IList<ApartmentEditDto> apartments = _apartmentService.GetAll();
-
-            Print(apartments);
-
-            Console.Write($"Select Apartment: ");
-
-            ApartmentEditDto selectedApartment = null;
-            int inputId = GetInputAsDigit();
-
-            if (inputId > -1)
+            while (GetPermissionToProceed())
             {
-                selectedApartment = apartments.FirstOrDefault(x => x.Id == inputId);
+                ApartmentEditDto selectedApartment = PickApartmentForEdit();
+
+                if (selectedApartment == null)
+                {
+                    continue;
+                }
+
+                // todo replace with navigation in the application
+                _consoleService.Print("Press any key to continue");
+                _consoleService.ReadKey();
+                _consoleService.Print();
+
+                ApartmentEditDto updatedApartment = UpdateApartment(selectedApartment);
+
+                if (updatedApartment == null)
+                {
+                    _consoleService.Print($"Failed to update apartment {selectedApartment.Id}");
+                    continue;
+                }
+
+                _consoleService.ReadKey();
             }
 
-            if (selectedApartment != null)
+            _consoleService.Print("Press any key to exit");
+            _consoleService.ReadKey();
+        }
+
+        public bool GetPermissionToProceed()
+        {
+            var isAllowed = false;
+
+            _consoleService.Clear();
+            _consoleService.Print($"Are you willing to proceed? (y/n)");
+
+            try
             {
-                Console.WriteLine($"Selected apartment with Id :{selectedApartment.Id}");
-                Console.WriteLine($"Apartment Status: {selectedApartment.State:G}");
+                isAllowed = _consoleService.GetBool();
             }
-            else
+            catch (FormatException e)
             {
-                return;
+                _consoleService.Print(e);
+                _consoleService.ReadKey();
+                return isAllowed; // error is thrown so it's still false
             }
 
-            Console.WriteLine("Press any key to continue");
-            Console.WriteLine();
-            Console.ReadKey();
-            Console.WriteLine($"Set new Apartment Status:");
+            return isAllowed;
+        }
 
-            foreach (ApartmentState state in _apartmentStateService.GetAllowedApartmentStates(selectedApartment.State))
+        public ApartmentEditDto PickApartmentForEdit()
+        {
+            _consoleService.Print("List of appartments: ");
+
+            var index = 0;
+            Dictionary<int, ApartmentEditDto> apartments = _apartmentService.GetAll().ToDictionary(key => ++index, value => value);
+            _consoleService.Print(apartments);
+
+            _consoleService.Print("Select Apartment: ");
+
+            int inputValue = _consoleService.GetInputAsNonNegativeNumber();
+            if (inputValue == -1)
             {
-                Console.WriteLine($"{(int) state}: {state:G}");
+                _consoleService.Print("Invalid number entered: only positive numbers and 0 are allowed");
+
+                // todo replace this with prompt to continue or not
+                _consoleService.ReadKey();
+                return null;
             }
 
-            var inputState = (ApartmentState) GetInputAsDigit();
+            if (!apartments.ContainsKey(inputValue))
+            {
+                _consoleService.Print("Element with such Index number does not exist");
+
+                // todo replace this with prompt to continue or not
+                _consoleService.ReadKey();
+                return null;
+            }
+
+            return apartments[inputValue];
+        }
+
+
+        public ApartmentEditDto UpdateApartment(ApartmentEditDto selectedApartment)
+        {
+            IEnumerable<ApartmentState> allowedStates = _apartmentStateService.GetAllowedApartmentStates(selectedApartment.State);
+
+            if (!allowedStates.Any())
+            {
+                _consoleService.Print($"Apartment {selectedApartment.Id}, {selectedApartment.Name} is in it's final state {selectedApartment.State:G}");
+                return null;
+            }
+
+            _consoleService.Print("Set new Apartment Status:");
+
+            _consoleService.Print(allowedStates);
+
+            _consoleService.Print();
+
+            int inputValue = _consoleService.GetInputAsNonNegativeNumber();
+
+            if (inputValue == -1)
+            {
+                _consoleService.Print("Invalid number entered: only positive numbers and 0 are allowed");
+
+                // todo replace this with prompt to continue or not
+                _consoleService.ReadKey();
+                return null;
+            }
+
+            var newState = (ApartmentState)inputValue;
 
             (bool isValid, string message)
-                validationResults = _apartmentStateService.Validate(selectedApartment, inputState);
+                validationResults = _apartmentStateService.Validate(selectedApartment, newState);
 
-            if (validationResults.isValid)
+            if (!validationResults.isValid)
             {
-                selectedApartment.State = inputState;
-                _apartmentService.Update(selectedApartment);
-                Console.WriteLine("Updated");
+                _consoleService.Print($"Cannot switch to the state: {newState}");
+                _consoleService.Print(validationResults.message);
             }
             else
             {
-                Console.WriteLine($"Cannot switch to the state: {inputState}");
-                Console.WriteLine(validationResults.message);
+                selectedApartment.State = newState;
+                _apartmentService.Update(selectedApartment);
+                _consoleService.Print($"Apartment id {selectedApartment.Id} is successfully updated with status: {selectedApartment.State:G}");
             }
 
-            Console.ReadKey();
+            return selectedApartment;
         }
 
-        private int GetInputAsDigit()
-        {
-            ConsoleKeyInfo input = Console.ReadKey();
-            Console.WriteLine();
-            return char.IsDigit(input.KeyChar) ? Int32.Parse(input.KeyChar.ToString()) : -1;
-        }
-
-        private void Print(IEnumerable<ApartmentEditDto> apartments)
-        {
-            foreach (ApartmentEditDto apartment in apartments)
-            {
-                Print(apartment);
-            }
-        }
-
-        private void Print(ApartmentEditDto apartment)
-        {
-            Console.WriteLine($"Id: {apartment.Id}");
-            Console.WriteLine($"Name: {apartment.Name}");
-            Console.WriteLine($"Rooms: {apartment.RoomsCount}");
-            Console.WriteLine($"Repair State: {apartment.State:G}");
-            Console.WriteLine();
-        }
     }
 }

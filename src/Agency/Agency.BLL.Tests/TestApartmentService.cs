@@ -86,7 +86,7 @@
             });
 
             mockUnitOfWork.Verify(x => x.Apartments, Times.Once);
-            mockRepository.Verify(x => x.Update(It.IsAny<Apartment>()), Times.Once);
+            mockRepository.Verify(x => x.Update(It.IsAny<Apartment>()), Times.Never);
         }
 
         [Test]
