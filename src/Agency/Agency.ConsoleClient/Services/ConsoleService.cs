@@ -42,13 +42,8 @@
             Console.ReadKey();
         }
 
-        public bool GetBool(string message = "", bool shouldClearConsole = false)
+        public bool GetBool(string message = "")
         {
-            if (shouldClearConsole)
-            {
-                Clear();
-            }
-
             Console.WriteLine(message);
             ConsoleKeyInfo input = Console.ReadKey();
             Console.WriteLine();

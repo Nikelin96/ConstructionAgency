@@ -17,31 +17,11 @@
 
         public void StartEditLoop()
         {
-            while (_consoleService.GetBool("Are you willing to proceed? (y/n)", true))
+            while (_consoleService.GetBool("Are you willing to proceed? (y/n)"))
             {
+                _consoleService.Clear();
 
                 _apartmentWorkflowService.EditApartment();
-                //ApartmentEditDto selectedApartment = _apartmentControllerService.PickApartmentForEdit();
-
-                //if (selectedApartment == null)
-                //{
-                //    return;
-                //}
-
-                //// todo replace with navigation in the application
-                ////_consoleService.Print("Press any key to continue");
-                ////_consoleService.ReadKey();
-                ////_consoleService.Print();
-
-                //ApartmentEditDto updatedApartment = _apartmentControllerService.UpdateApartment(selectedApartment);
-
-                //if (updatedApartment == null)
-                //{
-                //    _consoleService.Print($"Failed to update apartment {selectedApartment.Id}");
-                //    return;
-                //}
-
-                //_consoleService.ReadKey();
             }
 
             _consoleService.Print("Press any key to exit");

@@ -5,6 +5,6 @@
     public interface IApartmentControllerService
     {
         ApartmentEditDto PickApartmentForEdit();
-        ApartmentEditDto UpdateApartment(ApartmentEditDto selectedApartment);
+        ApartmentEditDto UpdateApartment(ApartmentEditDto apartmentEditDto);
     }
 }

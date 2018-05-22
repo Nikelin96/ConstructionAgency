@@ -16,11 +16,11 @@
         private readonly IConsoleService _consoleService;
 
 
-        public ApartmentControllerService(IApartmentService apartmentService, IApartmentStateService apartmentStateService, IConsoleService consoleService)
+        public ApartmentControllerService(IConsoleService consoleService, IApartmentService apartmentService, IApartmentStateService apartmentStateService)
         {
+            _consoleService = consoleService;
             _apartmentService = apartmentService;
             _apartmentStateService = apartmentStateService;
-            _consoleService = consoleService;
         }
 
         public ApartmentEditDto PickApartmentForEdit()
@@ -38,8 +38,6 @@
             {
                 _consoleService.Print("Invalid number entered: only positive numbers and 0 are allowed");
 
-                // todo replace this with prompt to continue or not
-                _consoleService.ReadKey();
                 return null;
             }
 
@@ -47,8 +45,6 @@
             {
                 _consoleService.Print("Element with such Index number does not exist");
 
-                // todo replace this with prompt to continue or not
-                _consoleService.ReadKey();
                 return null;
             }
 
@@ -56,13 +52,19 @@
         }
 
 
-        public ApartmentEditDto UpdateApartment(ApartmentEditDto selectedApartment)
+        public ApartmentEditDto UpdateApartment(ApartmentEditDto apartmentEditDto)
         {
-            IEnumerable<ApartmentState> allowedStates = _apartmentStateService.GetAllowedApartmentStates(selectedApartment.State);
+            if (apartmentEditDto == null)
+            {
+                _consoleService.Print("Apartment is null");
+                return null;
+            }
+
+            IEnumerable<ApartmentState> allowedStates = _apartmentStateService.GetAllowedApartmentStates(apartmentEditDto.State);
 
             if (!allowedStates.Any())
             {
-                _consoleService.Print($"Apartment {selectedApartment.Id}, {selectedApartment.Name} is in it's final state {selectedApartment.State:G}");
+                _consoleService.Print($"Apartment {apartmentEditDto.Id}, {apartmentEditDto.Name} is in final state {apartmentEditDto.State:G}");
                 return null;
             }
 
@@ -78,29 +80,26 @@
             {
                 _consoleService.Print("Invalid number entered: only positive numbers and 0 are allowed");
 
-                // todo replace this with prompt to continue or not
-                _consoleService.ReadKey();
                 return null;
             }
 
             var newState = (ApartmentState)inputValue;
 
             (bool isValid, string message)
-                validationResults = _apartmentStateService.Validate(selectedApartment, newState);
+                validationResults = _apartmentStateService.Validate(apartmentEditDto, newState);
 
             if (!validationResults.isValid)
             {
                 _consoleService.Print($"Cannot switch to the state: {newState}");
                 _consoleService.Print(validationResults.message);
-            }
-            else
-            {
-                selectedApartment.State = newState;
-                _apartmentService.Update(selectedApartment);
-                _consoleService.Print($"Apartment with id: {selectedApartment.Id} is successfully updated with status: {selectedApartment.State:G}");
+                return null;
             }
 
-            return selectedApartment;
+            apartmentEditDto.State = newState;
+            _apartmentService.Update(apartmentEditDto);
+            _consoleService.Print($"Apartment with id: {apartmentEditDto.Id} is successfully updated with status: {apartmentEditDto.State:G}");
+
+            return apartmentEditDto;
         }
     }
 }

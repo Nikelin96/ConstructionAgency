@@ -1,6 +1,5 @@
 ﻿namespace Agency.ConsoleClient.Tests
 {
-    using Agency.BLL.DTOs;
     using Moq;
     using NUnit.Framework;
     using Services;
@@ -17,7 +16,7 @@
             var mockConsoleService = new Mock<IConsoleService>();
             mockConsoleService.Setup(x => x.Print(exitMessage));
             mockConsoleService.Setup(x => x.ReadKey());
-            mockConsoleService.Setup(x => x.GetBool("Are you willing to proceed? (y/n)", true)).Returns(false);
+            mockConsoleService.Setup(x => x.GetBool("Are you willing to proceed? (y/n)")).Returns(false);
 
             var mockApartmentWorkflowService = new Mock<IApartmentWorkflowService>();
 
@@ -27,7 +26,7 @@
             agencyTerminalService.StartEditLoop();
 
             // assert
-            mockConsoleService.Verify(x => x.GetBool("Are you willing to proceed? (y/n)", true), Times.Once);
+            mockConsoleService.Verify(x => x.GetBool("Are you willing to proceed? (y/n)"), Times.Once);
             mockApartmentWorkflowService.Verify(x => x.EditApartment(), Times.Never);
 
             mockConsoleService.Verify(x => x.Print(exitMessage), Times.Once);
@@ -36,7 +35,7 @@
 
 
         [Test]
-        public void TestStart_PermissionTrue_CallsApartmentService()
+        public void TestStart_PermissionTrue_CallsAgencyWorkflowService()
         {
             // arrange
             var toggle = false;
@@ -45,7 +44,7 @@
             var mockConsoleService = new Mock<IConsoleService>();
             mockConsoleService.Setup(x => x.Print(exitMessage));
             mockConsoleService.Setup(x => x.ReadKey());
-            mockConsoleService.Setup(x => x.GetBool("Are you willing to proceed? (y/n)", true))
+            mockConsoleService.Setup(x => x.GetBool("Are you willing to proceed? (y/n)"))
                 .Returns(() =>
                 {
                     toggle = !toggle;
@@ -55,15 +54,15 @@
 
             var mockApartmentWorkflowService = new Mock<IApartmentWorkflowService>();
 
-            var agencyTerminalService = new AgencyWorkflowService(mockConsoleService.Object, mockApartmentWorkflowService.Object);
+            var agencyWorkflowService = new AgencyWorkflowService(mockConsoleService.Object, mockApartmentWorkflowService.Object);
 
             // act
-            agencyTerminalService.StartEditLoop();
+            agencyWorkflowService.StartEditLoop();
 
             // assert
             mockApartmentWorkflowService.Verify(x => x.EditApartment(), Times.Once);
 
-            mockConsoleService.Verify(x => x.GetBool("Are you willing to proceed? (y/n)", true), Times.Exactly(2));
+            mockConsoleService.Verify(x => x.GetBool("Are you willing to proceed? (y/n)"), Times.Exactly(2));
             mockConsoleService.Verify(x => x.Print(exitMessage), Times.Once);
             mockConsoleService.Verify(x => x.ReadKey(), Times.Once);
         }

@@ -13,7 +13,7 @@
         void Print(IDictionary<int, ApartmentEditDto> apartments);
         void ReadKey();
         int GetInputAsNonNegativeNumber();
-        bool GetBool(string message = "", bool shouldClearConsole = false);
+        bool GetBool(string message = "");
         void Clear();
 
     }
