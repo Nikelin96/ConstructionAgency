@@ -33,7 +33,6 @@
             // act
             ApartmentEditDto result = apartmentControllerService.PickApartmentForEdit();
 
-
             // assert
             mockApartmentService.Verify(x => x.GetAll(null), Times.Once);
 
@@ -271,5 +270,11 @@
                 Assert.AreEqual(result.State, newState);
             });
         }
+
+        //[Test]
+        //public void TestUpdateApartment_ValidNumber_UpdatedApartment()
+        //{
+
+        //}
     }
 }
