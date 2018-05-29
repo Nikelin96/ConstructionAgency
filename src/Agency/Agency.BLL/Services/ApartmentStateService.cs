@@ -19,6 +19,8 @@
             }
 
             string message =
+                $"Cannot switch to the state:{newState:G}" +
+                Environment.NewLine +
                 "Allowed States are:" +
                 Environment.NewLine +
                 string.Join(
@@ -29,10 +31,10 @@
             return (isValid: false, message: message);
         }
 
-        public IList<ApartmentState> GetAllowedApartmentStates(ApartmentState stateToVerify)
+        public IEnumerable<ApartmentState> GetAllowedApartmentStates(ApartmentState stateToVerify)
         {
             return Enum.GetValues(typeof(ApartmentState)).OfType<ApartmentState>()
-                .Where(state => (int)state > (int)stateToVerify).ToList();
+                .Where(state => (int)state > (int)stateToVerify);
         }
     }
 }

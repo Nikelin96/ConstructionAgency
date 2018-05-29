@@ -1,12 +1,16 @@
 ﻿namespace Agency.ConsoleClient.Infrastructure
 {
+    using System.Windows.Input;
     using AutoMapper;
+    using BLL.DTOs;
     using BLL.Infrastructure;
     using BLL.Services;
     using DAL.EF;
     using DAL.Interfaces;
     using Ninject.Modules;
     using Services;
+    using Services.Commands;
+    using Services.Factories;
 
     public class ServiceModule : NinjectModule
     {
@@ -29,11 +33,11 @@
 
             Bind<IConsoleService>().To<ConsoleService>();
 
-            Bind<IApartmentControllerService>().To<ApartmentControllerService>();
+            //Bind<IApartmentControllerService>().To<ApartmentControllerService>();
 
             Bind<IAgencyWorkflowService>().To<AgencyWorkflowService>();
 
-            Bind<IApartmentWorkflowService>().To<ApartmentWorkflowService>();
+            Bind<ICommandFactory<ApartmentEditDto>>().To<ApartmentCommandFactory>();
         }
     }
 }

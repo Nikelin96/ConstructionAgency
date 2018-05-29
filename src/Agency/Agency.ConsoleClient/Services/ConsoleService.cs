@@ -33,10 +33,20 @@
         }
         public int GetInputAsNonNegativeNumber()
         {
-            string input = Console.ReadLine().Trim();
+            string input = Console.ReadLine()?.Trim();
 
-            return int.TryParse(input, out int result) ? result : -1;
+            int value = int.TryParse(input, out int result) ? result : -1;
+
+            if (value == -1)
+            {
+                Console.WriteLine("Invalid number entered: only positive numbers and 0 are allowed");
+
+                throw new ArgumentOutOfRangeException(nameof(value));
+            }
+
+            return value;
         }
+
         public void ReadKey()
         {
             Console.ReadKey();
@@ -44,6 +54,7 @@
 
         public bool GetBool(string message = "")
         {
+            Console.WriteLine();
             Console.WriteLine(message);
             ConsoleKeyInfo input = Console.ReadKey();
             Console.WriteLine();

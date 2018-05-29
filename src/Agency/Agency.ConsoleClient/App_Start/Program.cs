@@ -1,10 +1,15 @@
 ﻿namespace Agency.ConsoleClient
 {
     using System;
+    using System.Security.Cryptography.X509Certificates;
     using Agency.BLL.Services;
+    using BLL.DTOs;
     using Infrastructure;
     using Ninject;
     using Services;
+    using Services.Commands;
+    using Services.Factories;
+
     internal class Program
     {
         public static void Main(string[] args)
@@ -15,7 +20,9 @@
             var serviceModule = new ServiceModule("name=DBConnection");
             var kernel = new StandardKernel(serviceModule);
 
-            var agencyTerminal = new AgencyWorkflowService(kernel.Get<IConsoleService>(), kernel.Get<IApartmentWorkflowService>());
+            var consoleService = kernel.Get<IConsoleService>();
+
+            var agencyTerminal = new AgencyWorkflowService(kernel.Get<ICommandFactory<ApartmentEditDto>>(), consoleService);
 
             try
             {
@@ -23,12 +30,14 @@
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                consoleService.Print(e);
                 //throw;
 
                 // todo: log error
                 return;
             }
         }
+
+
     }
 }

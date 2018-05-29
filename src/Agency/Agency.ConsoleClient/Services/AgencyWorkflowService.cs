@@ -2,17 +2,17 @@
 {
     using System;
     using BLL.DTOs;
+    using Commands;
+    using Factories;
 
     public class AgencyWorkflowService : IAgencyWorkflowService
     {
         private readonly IConsoleService _consoleService;
-
-        private readonly IApartmentWorkflowService _apartmentWorkflowService;
-
-        public AgencyWorkflowService(IConsoleService consoleService, IApartmentWorkflowService apartmentWorkflowService)
+        private readonly ICommandFactory<ApartmentEditDto> _commandFactory;
+        public AgencyWorkflowService(ICommandFactory<ApartmentEditDto> commandFactory, IConsoleService consoleService)
         {
+            _commandFactory = commandFactory;
             _consoleService = consoleService;
-            _apartmentWorkflowService = apartmentWorkflowService;
         }
 
         public void StartEditLoop()
@@ -21,11 +21,34 @@
             {
                 _consoleService.Clear();
 
-                _apartmentWorkflowService.EditApartment();
+                try
+                {
+                    ICommand<ApartmentEditDto> apartmentCommand = GetCommand();
+
+                    apartmentCommand.Execute();
+                }
+                catch (Exception e)
+                {
+                    _consoleService.Print(e);
+                }
             }
 
             _consoleService.Print("Press any key to exit");
             _consoleService.ReadKey();
+        }
+
+        public ICommand<ApartmentEditDto> GetCommand()
+        {
+            // chain CommandGetApartmentFromConsole
+            ICommand<ApartmentEditDto> command = _commandFactory.CreateCommand();
+
+            // chain CommandGetModifiedApartment
+            command = _commandFactory.CreateCommand(command);
+
+            // chain CommandUpdateApartment
+            command = _commandFactory.CreateCommand(command);
+
+            return command;
         }
     }
 }

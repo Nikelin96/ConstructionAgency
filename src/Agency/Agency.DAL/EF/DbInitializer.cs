@@ -27,7 +27,7 @@
             };
 
 
-            db.Apartments.AddRange(new[] {apartment1, apartment2, apartment3});
+            db.Apartments.AddRange(new[] { apartment1, apartment2, apartment3 });
 
             db.SaveChanges();
         }

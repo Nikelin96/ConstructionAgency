@@ -78,53 +78,32 @@
         }
 
         [Test]
-        public void TestValidate_PrevState_FalseWithNoAllowedStates()
-        {
-            //arrange
-            var apartmentDto = Mapper.Map<ApartmentEditDto>(new Apartment { Id = 0, State = ApartmentState.Done });
-
-            IApartmentStateService apartmentStateService = new ApartmentStateService();
-
-            string expectedMessage =
-                "Allowed States are:" +
-                Environment.NewLine +
-               string.Empty;
-
-            //act
-            (bool isValid, string message) = apartmentStateService.Validate(apartmentDto, ApartmentState.DrainageInstallation);
-
-            //assert
-            Assert.Multiple(() =>
-            {
-                Assert.IsFalse(isValid);
-                Assert.AreEqual(message, expectedMessage);
-            });
-        }
-
-        [Test]
         public void TestValidate_PrevState_False_ListOfAllowedStates()
         {
-            //arrange
-            const ApartmentState stateToVerify = ApartmentState.WallsDecoration;
+            // arrange
+            const ApartmentState previousState = ApartmentState.WallsDecoration;
+            const ApartmentState nextState = ApartmentState.SoundInsulation;
 
-            var apartmentDto = Mapper.Map<ApartmentEditDto>(new Apartment { Id = 0, State = stateToVerify });
+            var apartmentDto = Mapper.Map<ApartmentEditDto>(new Apartment { Id = 0, State = previousState });
 
             IEnumerable<ApartmentState> allowedStates = Enum.GetValues(typeof(ApartmentState)).OfType<ApartmentState>()
-               .Where(state => (int)state > (int)stateToVerify);
+               .Where(state => (int)state > (int)previousState);
 
-            //act
+            // act
             string expectedMessage =
-                  "Allowed States are:" +
-                  Environment.NewLine +
-                  string.Join(
-                      Environment.NewLine,
-                      allowedStates.Select(state => $"{(int)state} {state:G}").ToArray()
-                  );
+                $"Cannot switch to the state:{nextState:G}" +
+                Environment.NewLine +
+                "Allowed States are:" +
+                Environment.NewLine +
+                string.Join(
+                    Environment.NewLine,
+                    allowedStates.Select(state => $"{(int)state} {state:G}").ToArray()
+                );
 
             IApartmentStateService apartmentStateService = new ApartmentStateService();
 
             //act
-            (bool isValid, string message) = apartmentStateService.Validate(apartmentDto, ApartmentState.SoundInsulation);
+            (bool isValid, string message) = apartmentStateService.Validate(apartmentDto, nextState);
 
             //assert
             Assert.Multiple(() =>

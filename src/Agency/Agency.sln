@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agency.BLL.Tests", "Agency.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agency.ConsoleClient.Tests", "Agency.ConsoleClient.Tests\Agency.ConsoleClient.Tests.csproj", "{3AA43F56-43C5-49BA-B763-7BA2D7D96B71}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agency.DAL.Tests", "Agency.DAL.Tests\Agency.DAL.Tests.csproj", "{C1A05582-21A5-40F5-AA27-B02FD108152D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{3AA43F56-43C5-49BA-B763-7BA2D7D96B71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AA43F56-43C5-49BA-B763-7BA2D7D96B71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3AA43F56-43C5-49BA-B763-7BA2D7D96B71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1A05582-21A5-40F5-AA27-B02FD108152D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1A05582-21A5-40F5-AA27-B02FD108152D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1A05582-21A5-40F5-AA27-B02FD108152D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1A05582-21A5-40F5-AA27-B02FD108152D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

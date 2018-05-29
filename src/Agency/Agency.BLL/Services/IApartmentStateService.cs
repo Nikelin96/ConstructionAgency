@@ -12,6 +12,6 @@
     {
         (bool isValid, string message) Validate(ApartmentEditDto apartmentDto, ApartmentState newState);
 
-        IList<ApartmentState> GetAllowedApartmentStates(ApartmentState stateToVerify);
+        IEnumerable<ApartmentState> GetAllowedApartmentStates(ApartmentState stateToVerify);
     }
 }
