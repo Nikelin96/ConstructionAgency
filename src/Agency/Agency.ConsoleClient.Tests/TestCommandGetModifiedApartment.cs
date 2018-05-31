@@ -35,6 +35,9 @@
             // arrange
             var dto = new ApartmentEditDto { Id = 0 };
 
+            string outputText =
+                $"Apartment {dto.Id}, {dto.Name} is in final state {dto.State:G}";
+
             var mockConsoleService = new Mock<IConsoleService>();
             mockConsoleService.Setup(x => x.Print(It.IsAny<string>()));
 
@@ -54,6 +57,7 @@
             Assert.AreEqual(result, dto);
 
             mockConsoleService.Verify(x => x.Print(It.IsAny<string>()), Times.Once);
+            mockConsoleService.Verify(x => x.Print(outputText), Times.Once);
         }
 
         [Test]
@@ -81,6 +85,10 @@
                 });
 
             mockConsoleService.Verify(x => x.Print(It.IsAny<string>()), Times.Exactly(3));
+            mockConsoleService.Verify(x => x.Print("Set new Apartment Status:"), Times.Once);
+            mockConsoleService.Verify(x => x.Print((string)null), Times.Once);
+            mockConsoleService.Verify(x => x.Print(string.Empty), Times.Once);
+
             mockConsoleService.Verify(x => x.Print(It.IsAny<IEnumerable<ApartmentState>>()), Times.Once);
             mockConsoleService.Verify(x => x.GetInputAsNonNegativeNumber(), Times.Once);
         }
@@ -112,6 +120,8 @@
             Assert.AreNotEqual(state, result.State);
 
             mockConsoleService.Verify(x => x.Print(It.IsAny<string>()), Times.Exactly(2));
+            mockConsoleService.Verify(x => x.Print("Set new Apartment Status:"), Times.Once);
+            mockConsoleService.Verify(x => x.Print((string)null), Times.Once);
             mockConsoleService.Verify(x => x.Print(It.IsAny<IEnumerable<ApartmentState>>()), Times.Once);
             mockConsoleService.Verify(x => x.GetInputAsNonNegativeNumber(), Times.Once);
         }

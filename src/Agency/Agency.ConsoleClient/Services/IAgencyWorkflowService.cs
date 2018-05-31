@@ -2,6 +2,6 @@
 {
     public interface IAgencyWorkflowService
     {
-        void StartEditLoop();
+        void Start();
     }
 }

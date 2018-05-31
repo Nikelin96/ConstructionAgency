@@ -15,6 +15,5 @@
         int GetInputAsNonNegativeNumber();
         bool GetBool(string message = "");
         void Clear();
-
     }
 }

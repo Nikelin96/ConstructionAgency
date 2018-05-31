@@ -29,10 +29,6 @@
             _consoleService.Print("Select Apartment: ");
 
             int inputValue = _consoleService.GetInputAsNonNegativeNumber();
-            if (inputValue == -1)
-            {
-                return null;
-            }
 
             if (!apartments.ContainsKey(inputValue))
             {

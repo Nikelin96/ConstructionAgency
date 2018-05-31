@@ -21,19 +21,14 @@
             _apartmentStateService = apartmentStateService;
         }
 
-        //public ICommand<ApartmentEditDto> CreateCommand()
-        //{
-        //    ICommand<ApartmentEditDto> resultCommand = CreateCommand(null);
-        //    resultCommand = CreateCommand(resultCommand);
-
-        //    return resultCommand;
-        //}
-
-
-        public ICommand<ApartmentEditDto> CreateCommand(ICommand<ApartmentEditDto> currentCommand = null)
+        private ICommand<ApartmentEditDto> CreateCommand(ICommand<ApartmentEditDto> currentCommand = null)
         {
             ICommand<ApartmentEditDto> resultCommand = null;
 
+            if (currentCommand == null)
+            {
+                resultCommand = new CommandGetApartmentFromConsole(_consoleService, _apartmentService);
+            }
             if (currentCommand is CommandGetApartmentFromConsole)
             {
                 resultCommand = new CommandGetModifiedApartment(_consoleService, _apartmentStateService, currentCommand);
@@ -42,12 +37,22 @@
             {
                 resultCommand = new CommandUpdateAparment(_consoleService, _apartmentService, currentCommand);
             }
-            else if (currentCommand == null)
-            {
-                resultCommand = new CommandGetApartmentFromConsole(_consoleService, _apartmentService);
-            }
 
             return resultCommand;
+        }
+
+        public ICommand<ApartmentEditDto> ChainCommands()
+        {
+            // chain CommandGetApartmentFromConsole
+            ICommand<ApartmentEditDto> command = CreateCommand();
+
+            // chain CommandGetModifiedApartment
+            command = CreateCommand(command);
+
+            // chain CommandUpdateApartment
+            command = CreateCommand(command);
+
+            return command;
         }
     }
 }

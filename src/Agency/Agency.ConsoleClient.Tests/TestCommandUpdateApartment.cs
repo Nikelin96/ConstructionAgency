@@ -28,6 +28,8 @@
         public void TestExecute_PreviousCommandReturnsApartment_CallsUpdateOnApartmentService()
         {
             // arrange
+            string outputText = $"Apartment with id {string.Empty} is successfully updated with status: {string.Empty}";
+
             var mockConsoleService = new Mock<IConsoleService>();
             mockConsoleService.Setup(x => x.Print(It.IsAny<string>()));
 
@@ -49,6 +51,7 @@
             Assert.IsNotNull(result);
 
             mockConsoleService.Verify(x => x.Print(It.IsAny<string>()), Times.Once);
+            mockConsoleService.Verify(x => x.Print(outputText), Times.Once);
             mockApartmentService.Verify(x => x.Update(It.IsAny<ApartmentEditDto>()), Times.Once);
         }
 

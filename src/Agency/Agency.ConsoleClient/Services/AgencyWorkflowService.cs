@@ -15,7 +15,7 @@
             _consoleService = consoleService;
         }
 
-        public void StartEditLoop()
+        public void Start()
         {
             while (_consoleService.GetBool("Are you willing to proceed? (y/n)"))
             {
@@ -23,7 +23,7 @@
 
                 try
                 {
-                    ICommand<ApartmentEditDto> apartmentCommand = GetCommand();
+                    ICommand<ApartmentEditDto> apartmentCommand = _commandFactory.ChainCommands();
 
                     apartmentCommand.Execute();
                 }
@@ -35,20 +35,6 @@
 
             _consoleService.Print("Press any key to exit");
             _consoleService.ReadKey();
-        }
-
-        public ICommand<ApartmentEditDto> GetCommand()
-        {
-            // chain CommandGetApartmentFromConsole
-            ICommand<ApartmentEditDto> command = _commandFactory.CreateCommand();
-
-            // chain CommandGetModifiedApartment
-            command = _commandFactory.CreateCommand(command);
-
-            // chain CommandUpdateApartment
-            command = _commandFactory.CreateCommand(command);
-
-            return command;
         }
     }
 }

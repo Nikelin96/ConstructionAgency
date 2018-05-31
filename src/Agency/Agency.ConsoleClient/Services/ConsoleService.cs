@@ -12,11 +12,13 @@
         {
             Console.WriteLine(text);
         }
+
         public void Print(Exception exception)
         {
             Console.Error.WriteLine();
             Console.Error.WriteLine(exception);
         }
+
         public void Print(IEnumerable<ApartmentState> states)
         {
             foreach (ApartmentState state in states)
@@ -24,6 +26,7 @@
                 Print($"{(int)state}: {state:G}");
             }
         }
+
         public void Print(IDictionary<int, ApartmentEditDto> apartments)
         {
             foreach (KeyValuePair<int, ApartmentEditDto> record in apartments)
@@ -31,6 +34,7 @@
                 Print(record);
             }
         }
+
         public int GetInputAsNonNegativeNumber()
         {
             string input = Console.ReadLine()?.Trim();

@@ -1,45 +1,61 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Agency.DAL.Tests
+﻿namespace Agency.DAL.Tests
 {
-    //using System.Data.Entity;
-    //using AutoMapper;
-    //using EF;
-    //using Interfaces;
-    //using Moq;
-    //using NUnit.Framework;
+    using Moq;
+    using NUnit.Framework;
+    using System.Collections.Generic;
+    using System.Data.Entity;
+    using System.Data.Entity.Infrastructure;
+    using System.Linq;
+    using EF;
 
-    //[TestFixture]
-    //public class TestEfGenericRepository
-    //{
-    //    //private MockRepository MockRepository { get; set; }
+    [TestFixture]
+    public class TestEfGenericRepository
+    {
+        //public TestEfGenericRepository()
+        //{
 
-    //    private IRepository<object> Repository { get; set; }
+        //}
 
-    //    private IMapper Mapper { get; set; }
+        //[Test]
+        //public void TestGetAll()
+        //{
+        //    // arrange
+        //    IQueryable<TestEntity> testData = new List<TestEntity>() { new TestEntity(), new TestEntity() }.AsQueryable();
 
-    //    public TestEfGenericRepository()
-    //    {
-    //        //MockRepository = new MockRepository(MockBehavior.Default);
-            
-    //        var mockDbSet = new Mock<DbSet<object>>();
-    //        mockDbSet.Setup(x => x)
+        //    var mockSet = new Mock<DbSet<TestEntity>>();
+        //    mockSet.Setup(x => x.AsNoTracking().AsQueryable()).Returns(testData);
+
+        //    var mockContext = new Mock<DbContext>();
+        //    mockContext.Setup(x => x.Set<TestEntity>()).Returns(mockSet.Object);
+
+        //    var genericRepository = new EfGenericRepository<TestEntity>(mockContext.Object);
+
+        //    // act
+        //    IList<TestEntity> result = genericRepository.GetAll();
+
+        //    // assert
+        //    CollectionAssert.AreEqual(testData, result);
+        //}
+
+        //[Test]
+        //public void TestGet()
+        //{
+        //    // arrange
+        //    IQueryable<TestEntity> testData = new List<TestEntity>() { new TestEntity(), new TestEntity() }.AsQueryable();
+
+        //    var mockSet = new Mock<DbSet<TestEntity>>();
+        //    mockSet.Setup(x => x.AsNoTracking().AsQueryable()).Returns(testData);
+
+        //    var mockContext = new Mock<DbContext>();
+        //    mockContext.Setup(x => x.Set<TestEntity>()).Returns(mockSet.Object);
+
+        //    // act
+        //    var genericRepository = new EfGenericRepository<TestEntity>(mockContext.Object);
+
+        //    // assert
+        //    IList<TestEntity> result = genericRepository.Get(0);
+        //}
 
 
-    //        var mockContext = new Mock<DbContext>();
-    //        mockContext.Setup(x => x.Set<object>()).Returns(mockDbSet.Object);
-    //        Repository = new EfGenericRepository<object>();
-    //    }
-
-
-    //    [Test]
-    //    public void TestGetAll()
-    //    {
-
-    //    }
-    //}
+    }
 }

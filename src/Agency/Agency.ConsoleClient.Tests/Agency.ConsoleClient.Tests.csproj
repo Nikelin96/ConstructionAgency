@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="TestAgencyWorkflowService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestApartmentCommandFactory.cs" />
     <Compile Include="TestCommandGetApartmentFromConsole.cs" />
     <Compile Include="TestCommandGetModifiedApartment.cs" />
     <Compile Include="TestCommandUpdateApartment.cs" />
