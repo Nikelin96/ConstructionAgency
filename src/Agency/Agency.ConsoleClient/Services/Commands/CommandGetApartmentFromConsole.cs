@@ -5,21 +5,24 @@
     using System.Collections.Generic;
     using System.Linq;
     using BLL.DTOs;
+    using NLog;
 
-    public class CommandGetApartmentFromConsole : ICommand<ApartmentEditDto>
+    public class CommandGetApartmentFromConsole : BaseCommand<ApartmentEditDto>
     {
         private readonly IApartmentService _apartmentService;
 
         private readonly IConsoleService _consoleService;
 
-        public CommandGetApartmentFromConsole(IConsoleService consoleService, IApartmentService apartmentService)
+        public CommandGetApartmentFromConsole(IConsoleService consoleService, IApartmentService apartmentService, Func<ILogger> getLogger)
+            : base(getLogger())
         {
-            _consoleService = consoleService ?? throw new ArgumentNullException(nameof(consoleService));
-            _apartmentService = apartmentService ?? throw new ArgumentNullException(nameof(apartmentService));
+            _consoleService = consoleService;// ?? throw new ArgumentNullException(nameof(consoleService));
+            _apartmentService = apartmentService;// ?? throw new ArgumentNullException(nameof(apartmentService));
         }
 
-        public ApartmentEditDto Execute()
+        public override ApartmentEditDto Execute()
         {
+            _logger.Info("Begin Execution");
             _consoleService.Print("List of appartments: ");
 
             var index = 0;
@@ -28,15 +31,22 @@
 
             _consoleService.Print("Select Apartment: ");
 
+            _logger.Info("Retrieving number from console");
+
             int inputValue = _consoleService.GetInputAsNonNegativeNumber();
+
+            _logger.Info("Retrieve Successful");
 
             if (!apartments.ContainsKey(inputValue))
             {
-                _consoleService.Print("Element with such Index number does not exist");
+                _logger.Warn($"Element by Serial Number: {inputValue} does not exist");
+
+                _consoleService.Print($"Element by Serial Number: {inputValue} does not exist");
 
                 return null;
             }
 
+            _logger.Info("End Execution", apartments[inputValue]);
             return apartments[inputValue];
         }
     }

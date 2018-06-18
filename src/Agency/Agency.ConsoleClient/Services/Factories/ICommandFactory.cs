@@ -5,8 +5,6 @@
 
     public interface ICommandFactory<T>
     {
-        //ICommand<T> CreateCommand(ICommand<T> currentCommand = null);
-
-        ICommand<ApartmentEditDto> ChainCommands();
+        BaseCommand<ApartmentEditDto> ChainCommands();
     }
 }

@@ -7,6 +7,7 @@
     using Services;
     using Services.Factories;
     using System;
+    using NLog;
 
     [TestFixture]
     public class TestAgencyWorkflowService
@@ -18,12 +19,12 @@
             var outputText = "Are you willing to proceed? (y/n)";
             var mockCommandFactory = new Mock<ICommandFactory<ApartmentEditDto>>();
 
+            var mockLogger = new Mock<ILogger>();
+
             var mockConsoleService = new Mock<IConsoleService>();
             mockConsoleService.Setup(x => x.GetBool(outputText)).Returns(false);
-            mockConsoleService.Setup(x => x.Print(It.IsAny<string>()));
-            mockConsoleService.Setup(x => x.ReadKey());
 
-            var agencyWorkflowService = new AgencyWorkflowService(mockCommandFactory.Object, mockConsoleService.Object);
+            var agencyWorkflowService = new AgencyWorkflowService(mockCommandFactory.Object, mockConsoleService.Object, mockLogger.Object);
 
             // act
             agencyWorkflowService.Start();
@@ -44,7 +45,9 @@
 
             var outputText = "Are you willing to proceed? (y/n)";
 
-            var mockCommand = new Mock<ICommand<ApartmentEditDto>>();
+            var mockLogger = new Mock<ILogger>();
+
+            var mockCommand = new Mock<BaseCommand<ApartmentEditDto>>(mockLogger.Object);
             mockCommand.Setup(x => x.Execute()).Throws<Exception>();
 
             var mockCommandFactory = new Mock<ICommandFactory<ApartmentEditDto>>();
@@ -56,9 +59,8 @@
                 flag = !flag;
                 return flag;
             });
-            mockConsoleService.Setup(x => x.Print(It.IsAny<Exception>()));
 
-            var agencyWorkflowService = new AgencyWorkflowService(mockCommandFactory.Object, mockConsoleService.Object);
+            var agencyWorkflowService = new AgencyWorkflowService(mockCommandFactory.Object, mockConsoleService.Object, mockLogger.Object);
 
             // act
             agencyWorkflowService.Start();

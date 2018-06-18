@@ -5,6 +5,7 @@
     using BLL.Services;
     using Commands;
     using Ninject;
+    using NLog;
 
     public class ApartmentCommandFactory : ICommandFactory<ApartmentEditDto>
     {
@@ -14,37 +15,40 @@
 
         private readonly IApartmentStateService _apartmentStateService;
 
-        public ApartmentCommandFactory(IConsoleService consoleService, IApartmentService apartmentService, IApartmentStateService apartmentStateService)
+        private readonly Func<ILogger> _getLogger;
+
+        public ApartmentCommandFactory(IConsoleService consoleService, IApartmentService apartmentService, IApartmentStateService apartmentStateService, Func<ILogger> getLogger)
         {
-            _consoleService = consoleService;
-            _apartmentService = apartmentService;
-            _apartmentStateService = apartmentStateService;
+            _consoleService = consoleService ?? throw new ArgumentNullException(nameof(consoleService));
+            _apartmentService = apartmentService ?? throw new ArgumentNullException(nameof(apartmentService));
+            _apartmentStateService = apartmentStateService ?? throw new ArgumentNullException(nameof(apartmentStateService));
+            _getLogger = getLogger ?? throw new ArgumentNullException(nameof(getLogger));
         }
 
-        private ICommand<ApartmentEditDto> CreateCommand(ICommand<ApartmentEditDto> currentCommand = null)
+        private BaseCommand<ApartmentEditDto> CreateCommand(BaseCommand<ApartmentEditDto> currentCommand = null)
         {
-            ICommand<ApartmentEditDto> resultCommand = null;
+            BaseCommand<ApartmentEditDto> resultCommand = null;
 
             if (currentCommand == null)
             {
-                resultCommand = new CommandGetApartmentFromConsole(_consoleService, _apartmentService);
+                resultCommand = new CommandGetApartmentFromConsole(_consoleService, _apartmentService, _getLogger);
             }
             if (currentCommand is CommandGetApartmentFromConsole)
             {
-                resultCommand = new CommandGetModifiedApartment(_consoleService, _apartmentStateService, currentCommand);
+                resultCommand = new CommandGetModifiedApartment(_consoleService, _apartmentStateService, currentCommand, _getLogger);
             }
             else if (currentCommand is CommandGetModifiedApartment)
             {
-                resultCommand = new CommandUpdateAparment(_consoleService, _apartmentService, currentCommand);
+                resultCommand = new CommandUpdateAparment(_consoleService, _apartmentService, currentCommand, _getLogger);
             }
 
             return resultCommand;
         }
 
-        public ICommand<ApartmentEditDto> ChainCommands()
+        public BaseCommand<ApartmentEditDto> ChainCommands()
         {
             // chain CommandGetApartmentFromConsole
-            ICommand<ApartmentEditDto> command = CreateCommand();
+            BaseCommand<ApartmentEditDto> command = CreateCommand();
 
             // chain CommandGetModifiedApartment
             command = CreateCommand(command);

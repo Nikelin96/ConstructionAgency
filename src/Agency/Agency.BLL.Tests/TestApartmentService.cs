@@ -124,11 +124,9 @@
 
             var mockRepository = new Mock<IRepository<Apartment>>();
             mockRepository.Setup(x => x.Get(apartmentDto.Id)).Returns(Mapper.Map<Apartment>(apartmentDto));
-            mockRepository.Setup(x => x.Update(It.IsAny<Apartment>()));
 
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             mockUnitOfWork.Setup(x => x.Apartments).Returns(mockRepository.Object);
-            mockUnitOfWork.Setup(x => x.Commit());
 
             IApartmentService apartmentService = new ApartmentService(mockUnitOfWork.Object, mockMapper.Object);
 

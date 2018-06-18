@@ -5,6 +5,7 @@
     using BLL.DTOs;
     using BLL.Services;
     using Moq;
+    using NLog;
     using NUnit.Framework;
     using Services;
     using Services.Commands;
@@ -17,15 +18,15 @@
         {
             // arrange
             var mockConsoleService = new Mock<IConsoleService>();
-            mockConsoleService.Setup(x => x.Print(It.IsAny<string>()));
-            mockConsoleService.Setup(x => x.Print(It.IsAny<IDictionary<int, ApartmentEditDto>>()));
 
             mockConsoleService.Setup(x => x.GetInputAsNonNegativeNumber()).Returns(1);
 
             var mockApartmentService = new Mock<IApartmentService>();
             mockApartmentService.Setup(x => x.GetAll(null)).Returns(Enumerable.Empty<ApartmentEditDto>().ToList());
 
-            var command = new CommandGetApartmentFromConsole(mockConsoleService.Object, mockApartmentService.Object);
+            var mockLogger = new Mock<ILogger>();
+
+            var command = new CommandGetApartmentFromConsole(mockConsoleService.Object, mockApartmentService.Object, () => mockLogger.Object);
 
             ApartmentEditDto result = command.Execute();
 
@@ -37,7 +38,7 @@
             mockConsoleService.Verify(x => x.Print(It.IsAny<string>()), Times.Exactly(3));
             mockConsoleService.Verify(x => x.Print("List of appartments: "), Times.Once);
             mockConsoleService.Verify(x => x.Print("Select Apartment: "), Times.Once);
-            mockConsoleService.Verify(x => x.Print("Element with such Index number does not exist"), Times.Once);
+            mockConsoleService.Verify(x => x.Print($"Element by Serial Number: {1} does not exist"), Times.Once);
             mockConsoleService.Verify(x => x.Print(It.IsAny<IDictionary<int, ApartmentEditDto>>()), Times.Once);
         }
 
@@ -49,8 +50,6 @@
             var apartmentDto = new ApartmentEditDto();
 
             var mockConsoleService = new Mock<IConsoleService>();
-            mockConsoleService.Setup(x => x.Print(It.IsAny<string>()));
-            mockConsoleService.Setup(x => x.Print(It.IsAny<IDictionary<int, ApartmentEditDto>>()));
 
             mockConsoleService.Setup(x => x.GetInputAsNonNegativeNumber()).Returns(1);
 
@@ -58,7 +57,9 @@
 
             mockApartmentService.Setup(x => x.GetAll(null)).Returns(new List<ApartmentEditDto> { apartmentDto });
 
-            var command = new CommandGetApartmentFromConsole(mockConsoleService.Object, mockApartmentService.Object);
+            var mockLogger = new Mock<ILogger>();
+
+            var command = new CommandGetApartmentFromConsole(mockConsoleService.Object, mockApartmentService.Object, () => mockLogger.Object);
 
             ApartmentEditDto result = command.Execute();
 

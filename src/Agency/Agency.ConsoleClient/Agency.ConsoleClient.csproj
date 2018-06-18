@@ -93,7 +93,7 @@
     <Compile Include="Services\Factories\ApartmentCommandFactory.cs" />
     <Compile Include="Services\Factories\ICommandFactory.cs" />
     <Compile Include="Services\IAgencyWorkflowService.cs" />
-    <Compile Include="Services\Commands\ICommand.cs" />
+    <Compile Include="Services\Commands\BaseCommand.cs" />
     <Compile Include="Services\IConsoleService.cs" />
     <Compile Include="App_Start\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
