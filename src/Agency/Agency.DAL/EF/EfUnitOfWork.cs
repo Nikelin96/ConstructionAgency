@@ -4,7 +4,7 @@
     using Agency.DAL.Interfaces;
     using Agency.DAL.Model.Entities;
 
-    public class EfUnitOfWork : IUnitOfWork
+    internal class EfUnitOfWork : IUnitOfWork
     {
         #region private
 

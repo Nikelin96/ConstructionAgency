@@ -27,9 +27,9 @@
             }
         }
 
-        public void Print(IDictionary<int, ApartmentEditDto> apartments)
+        public void Print(IEnumerable<ApartmentEditDto> apartments)
         {
-            foreach (KeyValuePair<int, ApartmentEditDto> record in apartments)
+            foreach (ApartmentEditDto record in apartments)
             {
                 Print(record);
             }
@@ -80,10 +80,8 @@
         #endregion
 
         #region private
-        private void Print(KeyValuePair<int, ApartmentEditDto> record)
+        private void Print(ApartmentEditDto apartment)
         {
-            ApartmentEditDto apartment = record.Value;
-            Print($"Index number: {record.Key}");
             Print($"Id: {apartment.Id}");
             Print($"Name: {apartment.Name}");
             Print($"Rooms: {apartment.RoomsCount}");

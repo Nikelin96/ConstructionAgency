@@ -4,12 +4,11 @@
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    using System.Data.Entity.Migrations;
     using System.Linq;
     using System.Linq.Expressions;
     using Agency.DAL.Interfaces;
 
-    public class EfGenericRepository<TEntity> : IRepository<TEntity>
+    internal class EfGenericRepository<TEntity> : IRepository<TEntity>
         where TEntity : class, new()
     {
         private DbContext _context { get; set; }

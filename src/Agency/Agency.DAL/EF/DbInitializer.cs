@@ -3,7 +3,7 @@
     using System.Data.Entity;
     using Agency.DAL.Model.Entities;
 
-    public class DbInitializer : CreateDatabaseIfNotExists<ConstructionAgencyContext>
+    internal class DbInitializer : CreateDatabaseIfNotExists<ConstructionAgencyContext>
     {
         protected override void Seed(ConstructionAgencyContext db)
         {

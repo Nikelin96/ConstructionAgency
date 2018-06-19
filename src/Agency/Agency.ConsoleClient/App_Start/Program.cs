@@ -1,10 +1,10 @@
 ﻿namespace Agency.ConsoleClient
 {
     using System;
+    using BLL.Infrastructure;
+    using DAL.Infrastructure;
     using Infrastructure;
     using Ninject;
-    using NLog;
-    using NLog.Config;
     using Services;
 
     internal class Program
@@ -15,13 +15,16 @@
 
             AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Directory.GetCurrentDirectory());
 
-            var serviceModule = new ServiceModule("name=DBConnection");
-            var kernel = new StandardKernel(serviceModule);
+            var kernel = new StandardKernel(
+                new ServiceModuleDal("name=DBConnection"),
+                new ServiceModuleBll(),
+                new ServiceModuleConsoleClient()
+            );
 
             var agencyTerminal = kernel.Get<IAgencyWorkflowService>();
 
             agencyTerminal.Start();
         }
-        
+
     }
 }

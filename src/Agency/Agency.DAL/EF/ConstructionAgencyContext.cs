@@ -4,7 +4,7 @@
     using System.Data.Entity.ModelConfiguration;
     using Agency.DAL.Model.Entities;
 
-    public class ConstructionAgencyContext : DbContext
+    internal class ConstructionAgencyContext : DbContext
     {
         static ConstructionAgencyContext()
         {

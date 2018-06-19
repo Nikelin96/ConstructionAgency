@@ -38,8 +38,8 @@
             mockConsoleService.Verify(x => x.Print(It.IsAny<string>()), Times.Exactly(3));
             mockConsoleService.Verify(x => x.Print("List of appartments: "), Times.Once);
             mockConsoleService.Verify(x => x.Print("Select Apartment: "), Times.Once);
-            mockConsoleService.Verify(x => x.Print($"Element by Serial Number: {1} does not exist"), Times.Once);
-            mockConsoleService.Verify(x => x.Print(It.IsAny<IDictionary<int, ApartmentEditDto>>()), Times.Once);
+            mockConsoleService.Verify(x => x.Print($"Element by Id: {1} does not exist"), Times.Once);
+            mockConsoleService.Verify(x => x.Print(It.IsAny<IList<ApartmentEditDto>>()), Times.Once);
         }
 
 
@@ -47,7 +47,7 @@
         public void TestExecute_ApartmentFoundByNumber_FoundApartment()
         {
             // arrange
-            var apartmentDto = new ApartmentEditDto();
+            var apartmentDto = new ApartmentEditDto { Id = 1 };
 
             var mockConsoleService = new Mock<IConsoleService>();
 
@@ -71,7 +71,7 @@
             mockConsoleService.Verify(x => x.Print(It.IsAny<string>()), Times.Exactly(2));
             mockConsoleService.Verify(x => x.Print("List of appartments: "), Times.Once);
             mockConsoleService.Verify(x => x.Print("Select Apartment: "), Times.Once);
-            mockConsoleService.Verify(x => x.Print(It.IsAny<IDictionary<int, ApartmentEditDto>>()), Times.Once);
+            mockConsoleService.Verify(x => x.Print(It.IsAny<IList<ApartmentEditDto>>()), Times.Once);
         }
     }
 }

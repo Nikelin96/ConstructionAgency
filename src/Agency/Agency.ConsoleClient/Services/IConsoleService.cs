@@ -10,7 +10,7 @@
         void Print(string text = null);
         void Print(Exception exception);
         void Print(IEnumerable<ApartmentState> states);
-        void Print(IDictionary<int, ApartmentEditDto> apartments);
+        void Print(IEnumerable<ApartmentEditDto> apartments);
         void ReadKey();
         int GetInputAsNonNegativeNumber();
         bool GetBool(string message = "");

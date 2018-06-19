@@ -3,9 +3,9 @@
     using System.Collections.Generic;
     using AutoMapper;
 
-    public static class MapperExt
+    internal static class MapperExt
     {
-        public static IList<TDestination> MapToList<TSource, TDestination>(this IMapper mapper,
+        public static List<TDestination> MapToList<TSource, TDestination>(this IMapper mapper,
             IList<TSource> source)
         {
             List<TDestination> mappedList = mapper.Map<IList<TSource>, List<TDestination>>(source);

@@ -25,8 +25,7 @@
             _logger.Info("Begin Execution");
             _consoleService.Print("List of appartments: ");
 
-            var index = 0;
-            Dictionary<int, ApartmentEditDto> apartments = _apartmentService.GetAll().ToDictionary(key => ++index, value => value);
+            IList<ApartmentEditDto> apartments = _apartmentService.GetAll();
             _consoleService.Print(apartments);
 
             _consoleService.Print("Select Apartment: ");
@@ -37,17 +36,18 @@
 
             _logger.Info("Retrieve Successful");
 
-            if (!apartments.ContainsKey(inputValue))
+            ApartmentEditDto apartment = apartments.SingleOrDefault(x => x.Id == inputValue);
+
+            if (apartment == null)
             {
-                _logger.Warn($"Element by Serial Number: {inputValue} does not exist");
+                _logger.Warn($"Element by Id: {inputValue} does not exist");
 
-                _consoleService.Print($"Element by Serial Number: {inputValue} does not exist");
-
-                return null;
+                _consoleService.Print($"Element by Id: {inputValue} does not exist");
             }
 
-            _logger.Info("End Execution", apartments[inputValue]);
-            return apartments[inputValue];
+            _logger.Info("End Execution", apartment);
+
+            return apartment;
         }
     }
 }
