@@ -9,6 +9,7 @@
     using DAL.Model.Entities;
     using DTOs;
     using Moq;
+    using NLog;
     using NUnit.Framework;
     using Services;
 
@@ -46,7 +47,8 @@
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             mockUnitOfWork.Setup(x => x.Apartments).Returns(mockRepository.Object);
 
-            IApartmentService apartmentService = new ApartmentService(mockUnitOfWork.Object, mockMapper.Object);
+            var mockLogger = new Mock<ILogger>();
+            IApartmentService apartmentService = new ApartmentService(mockUnitOfWork.Object, mockMapper.Object, () => mockLogger.Object);
 
             //act
             IList<ApartmentEditDto> result = apartmentService.GetAll();
@@ -76,7 +78,9 @@
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             mockUnitOfWork.Setup(x => x.Apartments).Returns(mockRepository.Object);
 
-            IApartmentService apartmentService = new ApartmentService(mockUnitOfWork.Object, null);
+            var mockLogger = new Mock<ILogger>();
+
+            IApartmentService apartmentService = new ApartmentService(mockUnitOfWork.Object, null, () => mockLogger.Object);
 
             //act
             //assert
@@ -98,7 +102,9 @@
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             mockUnitOfWork.Setup(x => x.Apartments).Returns(mockRepository.Object);
 
-            IApartmentService apartmentService = new ApartmentService(mockUnitOfWork.Object, null);
+            var mockLogger = new Mock<ILogger>();
+
+            IApartmentService apartmentService = new ApartmentService(mockUnitOfWork.Object, null, () => mockLogger.Object);
 
             //act
             //assert
@@ -128,7 +134,9 @@
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             mockUnitOfWork.Setup(x => x.Apartments).Returns(mockRepository.Object);
 
-            IApartmentService apartmentService = new ApartmentService(mockUnitOfWork.Object, mockMapper.Object);
+            var mockLogger = new Mock<ILogger>();
+
+            IApartmentService apartmentService = new ApartmentService(mockUnitOfWork.Object, mockMapper.Object, () => mockLogger.Object);
 
             //act
             apartmentService.Update(apartmentDto);

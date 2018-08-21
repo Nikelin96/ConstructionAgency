@@ -3,6 +3,7 @@
     using Agency.BLL.Services;
     using AutoMapper;
     using Ninject.Modules;
+    using NLog;
 
     public class ServiceModuleBll : NinjectModule
     {

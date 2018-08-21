@@ -28,6 +28,9 @@
         public override ApartmentEditDto Execute()
         {
             _logger.Info("Begin Execution");
+
+            _stopwatch.Start();
+
             _logger.Info("Calling Previous Command");
 
             ApartmentEditDto apartmentEditDto = _sourceCommand.Execute();
@@ -36,6 +39,10 @@
 
             if (apartmentEditDto == null)
             {
+                _stopwatch.Stop();
+
+                _logger.Info($"End Execution in {_stopwatch.ElapsedMilliseconds}");
+
                 throw new ArgumentNullException(nameof(apartmentEditDto));
             }
 
@@ -49,7 +56,11 @@
             {
                 _logger.Warn($"Apartment {apartmentEditDto.Id}, {apartmentEditDto.Name} is in final state {apartmentEditDto.State:G}");
                 _consoleService.Print($"Apartment {apartmentEditDto.Id}, {apartmentEditDto.Name} is in final state {apartmentEditDto.State:G}");
-                //return apartmentEditDto;
+
+                _stopwatch.Stop();
+
+                _logger.Info($"End Execution in {_stopwatch.ElapsedMilliseconds}");
+
                 return null;
             }
 
@@ -73,12 +84,20 @@
             if (!validationResults.isValid)
             {
                 _consoleService.Print(validationResults.message);
+
+                _stopwatch.Stop();
+
+                _logger.Info($"End Execution in {_stopwatch.ElapsedMilliseconds}");
+
                 throw new ValidationException(validationResults.message);
             }
 
             apartmentEditDto.State = newState;
 
-            _logger.Info("End Execution", apartmentEditDto);
+            _stopwatch.Stop();
+
+            _logger.Info($"End Execution in {_stopwatch.ElapsedMilliseconds}", apartmentEditDto);
+
             return apartmentEditDto;
         }
 

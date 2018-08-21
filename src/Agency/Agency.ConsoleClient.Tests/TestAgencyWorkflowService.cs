@@ -66,7 +66,7 @@
             agencyWorkflowService.Start();
 
             // assert
-            mockConsoleService.Verify(x => x.GetBool(outputText), Times.Exactly(2));
+            mockConsoleService.Verify(x => x.GetBool(outputText), Times.Once);
             mockConsoleService.Verify(x => x.Clear(), Times.Once);
             mockCommandFactory.Verify(x => x.ChainCommands(), Times.Once);
             mockCommand.Verify(x => x.Execute(), Times.Once);

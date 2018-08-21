@@ -23,6 +23,9 @@
         public override ApartmentEditDto Execute()
         {
             _logger.Info("Begin Execution");
+
+            _stopwatch.Start();
+
             _consoleService.Print("List of appartments: ");
 
             IList<ApartmentEditDto> apartments = _apartmentService.GetAll();
@@ -45,7 +48,9 @@
                 _consoleService.Print($"Element by Id: {inputValue} does not exist");
             }
 
-            _logger.Info("End Execution", apartment);
+            _stopwatch.Stop();
+
+            _logger.Info($"End Execution in {_stopwatch.ElapsedMilliseconds}", apartment);
 
             return apartment;
         }

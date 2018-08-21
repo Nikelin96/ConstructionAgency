@@ -24,6 +24,9 @@
         public override ApartmentEditDto Execute()
         {
             _logger.Info("Begin Execution");
+
+            _stopwatch.Start();
+
             _logger.Info("Calling Previous Command");
 
             ApartmentEditDto apartmentToUpdate = _sourceCommand.Execute();
@@ -32,8 +35,13 @@
 
             if (apartmentToUpdate == null)
             {
-                _logger.Warn("Previous Command returned null: nothing to update");
+                _logger.Warn("Previous Command returned null - nothing to update");
                 _consoleService.Print($"Nothing to update");
+
+                _stopwatch.Stop();
+
+                _logger.Info($"End Execution in {_stopwatch.ElapsedMilliseconds}", apartmentToUpdate);
+
                 return null;
             }
 
@@ -45,7 +53,10 @@
 
             _consoleService.Print($"Apartment with id: {apartmentToUpdate.Id} is successfully updated with status: {apartmentToUpdate.State:G}");
 
-            _logger.Info("End Execution", apartmentToUpdate);
+            _stopwatch.Stop();
+
+            _logger.Info($"End Execution in {_stopwatch.ElapsedMilliseconds}", apartmentToUpdate);
+
             return apartmentToUpdate;
         }
     }

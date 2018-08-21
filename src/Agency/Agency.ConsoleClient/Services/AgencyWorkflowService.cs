@@ -20,11 +20,11 @@
 
         public void Start()
         {
-
-            while (_consoleService.GetBool("Are you willing to proceed? (y/n)"))
+            try
             {
-                try
+                while (_consoleService.GetBool("Are you willing to proceed? (y/n)"))
                 {
+
                     _logger.Info(Environment.NewLine);
 
                     _consoleService.Clear();
@@ -33,12 +33,12 @@
 
                     apartmentCommand.Execute();
                 }
-                catch (Exception e)
-                {
-                    _logger.Error(e);
-                    _consoleService.Print(e);
-                }
+            }
 
+            catch (Exception e)
+            {
+                _logger.Error(e);
+                _consoleService.Print(e);
             }
 
             _consoleService.Print("Press any key to exit");
