@@ -12,7 +12,7 @@
 
         public string Name { get; set; }
 
-        #region reations
+        #region relations
 
         public virtual District District { get; set; }
 

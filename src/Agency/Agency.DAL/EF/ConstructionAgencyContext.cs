@@ -16,21 +16,23 @@
         {
             this.Configuration.LazyLoadingEnabled = true;
 
-//            Database.SetInitializer(
-//                new CreateDatabaseIfNotExists<ConstructionAgencyContext>());
+            //            Database.SetInitializer(
+            //                new CreateDatabaseIfNotExists<ConstructionAgencyContext>());
         }
 
         public DbSet<City> Citites { get; set; }
-        
+
         public DbSet<District> Districts { get; set; }
-        
+
         public DbSet<Street> Streets { get; set; }
-        
+
         public DbSet<Building> Buildings { get; set; }
-        
+
         public DbSet<Apartment> Apartments { get; set; }
-        
+
         public DbSet<Person> Persons { get; set; }
+
+        public DbSet<Military> Military { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

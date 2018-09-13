@@ -17,6 +17,8 @@
 
         IRepository<Person> Persons { get; }
 
+        IRepository<Military> Military { get; }
+
         void Commit();
     }
 }

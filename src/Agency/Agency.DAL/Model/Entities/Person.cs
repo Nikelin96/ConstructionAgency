@@ -1,6 +1,5 @@
 ﻿namespace Agency.DAL.Model.Entities
-{
-    using System.Collections.Generic;
+{    
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -14,7 +13,7 @@
 
         public byte Age { get; set; }
 
-        #region reations
+        #region relations
 
         public virtual Apartment Apartment { get; set; }
 

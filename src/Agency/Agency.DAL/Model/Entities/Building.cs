@@ -12,7 +12,7 @@
 
         public int Number => Id + 1;
 
-        #region reations
+        #region relations
 
         public virtual Street Street { get; set; }
 

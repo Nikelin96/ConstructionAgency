@@ -7,42 +7,19 @@
     {
         protected override void Seed(ConstructionAgencyContext db)
         {
-//            var apartment1 = new Apartment()
-//            {
-//                Name = "Flat1",
-//                RoomsCount = 1,
-//                State = ApartmentState.PartitionsDesigning
-//            };
-//            var apartment2 = new Apartment()
-//            {
-//                Name = "Flat2",
-//                RoomsCount = 2,
-//                State = ApartmentState.DrainageInstallation
-//            };
-//            var apartment3 = new Apartment()
-//            {
-//                Name = "Flat3",
-//                RoomsCount = 3,
-//                State = ApartmentState.FloorFitting
-//            };
-
-//            db.Apartments.AddRange(new[] { apartment1, apartment2, apartment3 });
-//
-//            db.SaveChanges();
-
-            var city = new City {Name = "Detroit"};
+            var city = new City { Name = "Detroit" };
 
             db.Citites.Add(city);
 
-            var district = new District {Name = "Brooklyn", City = city};
+            var district = new District { Name = "Brooklyn", City = city };
 
             db.Districts.Add(district);
 
-            var street = new Street {Name = "Freedom", District = district};
+            var street = new Street { Name = "Freedom", District = district };
 
             db.Streets.Add(street);
 
-            var building = new Building {Street = street};
+            var building = new Building { Street = street };
 
             db.Buildings.Add(building);
 
@@ -64,6 +41,16 @@
             };
 
             db.Persons.Add(person);
+
+            var Military = new Military
+            {
+                Name = "Serg",
+                Age = 22,
+                Rank = MilitaryRank.Colonel,
+                Apartment = apartment
+            };
+
+            db.Military.Add(Military);
 
             db.SaveChanges();
         }

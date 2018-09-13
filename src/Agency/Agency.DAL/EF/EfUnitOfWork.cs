@@ -22,6 +22,8 @@
 
         private IRepository<Person> _persons { get; set; }
 
+        private IRepository<Military> _military { get; set; }
+
         #endregion
 
         #region constructor
@@ -104,6 +106,18 @@
 
                 //_comments.RetrieveHandler += UpdateViews;
                 return _persons;
+            }
+        }
+
+        public IRepository<Military> Military
+        {
+            get
+            {
+                if (_military != null) return _military;
+                _military = new EfGenericRepository<Military>(_context);
+
+                //_comments.RetrieveHandler += UpdateViews;
+                return _military;
             }
         }
 
