@@ -55,6 +55,11 @@
     <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="Model\Entities\Apartment.cs" />
     <Compile Include="Model\Entities\ApartmentState.cs" />
+    <Compile Include="Model\Entities\Building.cs" />
+    <Compile Include="Model\Entities\City.cs" />
+    <Compile Include="Model\Entities\District.cs" />
+    <Compile Include="Model\Entities\Person.cs" />
+    <Compile Include="Model\Entities\Street.cs" />
     <Compile Include="Model\IStateContainer.cs" />
     <Compile Include="Model\StateContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

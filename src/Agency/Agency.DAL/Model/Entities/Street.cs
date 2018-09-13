@@ -4,7 +4,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public class Apartment
+    public class Street
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -12,18 +12,15 @@
 
         public string Name { get; set; }
 
-        public int RoomsCount { get; set; }
+        #region reations
 
-        public ApartmentState State { get; set; }
+        public virtual District District { get; set; }
 
-        #region  relations
-
-        public virtual Building Building { get; set; }
-
-        public virtual ICollection<Person> Persons { get; set; }
+        public virtual ICollection<Building> Buildings { get; set; }
 
         #endregion
 
-        public Apartment() => Persons = new List<Person>();
+        public Street() => Buildings = new List<Building>();
+
     }
 }
