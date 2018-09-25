@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -30,6 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -53,12 +55,15 @@
     <Compile Include="Infrastructure\ServiceModuleDal.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
+    <Compile Include="Model\ApartmentStates\StateFree.cs" />
+    <Compile Include="Model\ApartmentStates\StateDrainageInstallation.cs" />
     <Compile Include="Model\Entities\Apartment.cs" />
     <Compile Include="Model\Entities\ApartmentState.cs" />
     <Compile Include="Model\Entities\Building.cs" />
     <Compile Include="Model\Entities\City.cs" />
     <Compile Include="Model\Entities\District.cs" />
     <Compile Include="Model\Entities\MilitaryRank.cs" />
+    <Compile Include="Model\ApartmentStates\StatePartitionsDesigning.cs" />
     <Compile Include="Model\Entities\Person.cs" />
     <Compile Include="Model\Entities\Military.cs" />
     <Compile Include="Model\Entities\Street.cs" />

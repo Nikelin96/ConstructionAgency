@@ -2,13 +2,11 @@
 {
     public enum ApartmentState
     {
-        PartitionsDesigning = 0,
-        DrainageInstallation,
-        FloorFitting,
-        SoundInsulation,
-        WallsDecoration,
-        CeilingsDecoration,
-        DoorsNWindowsInstallation,
-        Done
+        Free,
+        Eviction,
+        Occupied,
+        Occupancy,
+        ClosingForRenovation,
+        Renovation,
     }
 }

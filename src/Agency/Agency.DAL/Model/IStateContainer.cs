@@ -2,12 +2,12 @@
 {
     using System;
 
-    public interface IStateContainer
+    public interface IStateContainer<TState> where TState : Enum
     {
-        Enum State { get; set; }
+        TState State { get; set; }
 
-        Enum PrevState { get; }
+        TState PrevState { get; }
 
-        event Action<StateContainer> OnStateChange;
+        event Action<StateContainer<TState>> OnStateChange;
     }
 }
